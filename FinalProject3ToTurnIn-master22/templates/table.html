@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="../static/MainPage.css">
+    <title>table(s)</title>
+</head>
+<body>
+    <h2><b>Cleaned Data:</b></h2>
+    <br>
+
+    <script type="text/javascript">
+    var data = {{data | safe}};
+    var incomeData = data['incomeData'];
+    var SneakerData = data['sneakerData'];
+    var table ='<tr><th>State/Region</th><th>Average Per Capita Income</th><th>Gross StockX Sales</th><th>Population</th></tr>';
+    
+    for (const [k,v] of Object.entries(incomeData)){
+        let GivenState = k.toString();
+        // console.log('State',k,v);
+        table+= '<tr><td>'+
+         GivenState+
+         '</td><td>$'+
+        v['Income']+
+        '</td><td>';
+        if (SneakerData[GivenState]!= undefined){
+            table+='$'+SneakerData[GivenState]['Sale Price']
+        }
+        else{
+            table += 'N/A'
+        }
+        // SneakerDate[GivenState]['Sale Price']+
+        table+='</td><td>';
+        if (data['statePopulations'][GivenState]!= undefined){
+            table += data['statePopulations'][GivenState]
+        }
+        else{
+            table+='N/A'
+        }
+        table+='</td></tr>'
+    }
+    
+    console.log(data);
+    // console.log('--------------------------');
+    // console.log(data['incomeData']['Wyoming']['Income']);
+
+
+    
+    document.write('<table>'+table+'</table>');
+    </script>
+    
+    
+</body>
